@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - Campeonato Arena Gamer</title>
+    <style>
+        /* Reset de estilos básicos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d0e12;
+            color: #ff0404;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container Principal */
+        .container {
+            background: #151821;
+            width: 100%;
+            max-width: 550px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff0000;
+        }
+
+        /* Cabeçalho */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        header p {
+            color: #a0a5b5;
+            font-size: 0.95rem;
+        }
+
+        /* Formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffae00;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1f2330;
+            border: 2px solid #2d3245;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff0606;
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Grid para campos lado a lado */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Termos de Azeite */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            color: #a0a5b5;
+            text-transform: none;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        /* Botão de Enviar */
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #ff0000;
+            color: #0d0e12;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(189, 46, 2, 0.4);
+        }
+
+        button:hover {
+            background: #ff6600;
+            box-shadow: 0 4px 15px rgba(255, 230, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Camp do Flee the Facility</h1>
+            <p>Inscrições abertas para o campeonato oficial. Garanta sua vaga!</p>
+        </header>
+
+        <form action="#" method="POST">
+            
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nickname">Nickname (No Jogo)</label>
+                    <input type="text" id="nickname" name="nickname" placeholder="Ex: ProPlayer_99" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jogo">Escolha o Jogo</label>
+                    <select id="jogo" name="jogo" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="FTF">Flee the facility</option>
+                        <option value="Bf">Blox Fruits</option>
+                        <option value="Mine">Minecraft</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail de Contato</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="discord">Discord (Tag/Usuário)</label>
+                <input type="text" id="discord" name="discord" placeholder="Ex: usuario#0000 ou apenas usuario" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="termos" name="termos" required>
+                <label for="termos">Li e aceito as regras oficiais do campeonato.</label>
+            </div>
+
+            <button type="submit">Concluir Inscrição</button>
+        </form>
+    </div>
+
+</body>
+</html>
