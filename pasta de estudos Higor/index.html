@@ -1,205 +1,505 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscrição - Campeonato Arena Gamer</title>
-    <style>
-        /* Reset de estilos básicos */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscrição — Camp Flee the Facility</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0d;
+    --surface:#15161d;
+    --surface-2:#1c1e28;
+    --border:#2a2c3a;
+    --red:#e8283f;
+    --red-dim:#8c1c29;
+    --amber:#ffb627;
+    --text:#ece9ef;
+    --text-muted:#8b8d98;
+    --success:#3ddc84;
+  }
 
-        body {
-            background-color: #0d0e12;
-            color: #ff0404;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+  *{margin:0;padding:0;box-sizing:border-box;}
 
-        /* Container Principal */
-        .container {
-            background: #151821;
-            width: 100%;
-            max-width: 550px;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            border: 1px solid #ff0000;
-        }
+  body{
+    background:
+      radial-gradient(ellipse 900px 600px at 50% -10%, rgba(232,40,63,0.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter', system-ui, sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+    position:relative;
+  }
 
-        /* Cabeçalho */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.025) 0px,
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    opacity:.5;
+  }
 
-        header h1 {
-            font-size: 2rem;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
+  .container{
+    position:relative;
+    background:var(--surface);
+    width:100%;
+    max-width:520px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    border-top:3px solid var(--red);
+    box-shadow:0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,40,63,0.05);
+    overflow:hidden;
+  }
 
-        header p {
-            color: #a0a5b5;
-            font-size: 0.95rem;
-        }
+  .container.shake{ animation:shake .4s ease; }
+  @keyframes shake{
+    10%,90%{ transform:translateX(-1px); }
+    20%,80%{ transform:translateX(2px); }
+    30%,50%,70%{ transform:translateX(-4px); }
+    40%,60%{ transform:translateX(4px); }
+  }
 
-        /* Formulário */
-        .form-group {
-            margin-bottom: 20px;
-        }
+  .statusbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 24px;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.06em;
+    color:var(--text-muted);
+    text-transform:uppercase;
+  }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #ffae00;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
+  .statusbar .dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--red);
+    margin-right:8px;
+    box-shadow:0 0 6px var(--red);
+    animation:pulseDot 1.6s ease-in-out infinite;
+  }
 
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            background: #1f2330;
-            border: 2px solid #2d3245;
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+  @keyframes pulseDot{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #ff0606;
-            box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
-        }
+  .statusbar .left{ color:var(--text); }
+  .statusbar .right{ color:var(--text-muted); }
 
-        /* Grid para campos lado a lado */
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+  .content{ padding:36px 32px 32px; }
 
-        /* Termos de Azeite */
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 25px 0;
-        }
+  header{ margin-bottom:28px; }
 
-        .checkbox-group input {
-            width: auto;
-            cursor: pointer;
-        }
+  header h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:1.9rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    line-height:1.15;
+    color:var(--text);
+  }
 
-        .checkbox-group label {
-            margin-bottom: 0;
-            color: #a0a5b5;
-            text-transform: none;
-            font-weight: normal;
-            cursor: pointer;
-        }
+  header h1 span{ color:var(--red); }
 
-        /* Botão de Enviar */
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #ff0000;
-            color: #0d0e12;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(189, 46, 2, 0.4);
-        }
+  header p{
+    margin-top:10px;
+    color:var(--text-muted);
+    font-size:.92rem;
+    line-height:1.5;
+    max-width:38ch;
+  }
 
-        button:hover {
-            background: #ff6600;
-            box-shadow: 0 4px 15px rgba(255, 230, 0, 0.4);
-            transform: translateY(-2px);
-        }
+  .divider{
+    height:1px;
+    background:linear-gradient(to right, var(--red-dim), transparent);
+    margin-top:20px;
+  }
 
-        button:active {
-            transform: translateY(0);
-        }
+  form{ margin-top:26px; }
 
-        /* Responsividade para celulares */
-        @media (max-width: 480px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 25px 20px;
-            }
-        }
-    </style>
+  .form-group{ margin-bottom:18px; }
+
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  label{
+    display:block;
+    margin-bottom:7px;
+    color:var(--amber);
+    font-weight:600;
+    font-size:.74rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  input, select{
+    width:100%;
+    padding:12px 14px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:5px;
+    color:var(--text);
+    font-size:.95rem;
+    font-family:inherit;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+
+  select{ cursor:pointer; }
+
+  input::placeholder{ color:#5b5d6b; }
+
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--red);
+    box-shadow:0 0 0 3px rgba(232,40,63,0.18);
+  }
+
+  input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:2px;
+  }
+
+  input:invalid:not(:placeholder-shown){ border-color:var(--red-dim); }
+
+  .checkbox-group{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:24px 0 22px;
+  }
+
+  .checkbox-group input{
+    width:16px; height:16px;
+    margin-top:2px;
+    accent-color:var(--red);
+    cursor:pointer;
+  }
+
+  .checkbox-group label{
+    margin-bottom:0;
+    color:var(--text-muted);
+    text-transform:none;
+    font-weight:400;
+    font-size:.88rem;
+    cursor:pointer;
+  }
+
+  .checkbox-group a{ color:var(--amber); text-decoration:underline; }
+
+  button{
+    width:100%;
+    padding:15px;
+    background:var(--red);
+    color:#fff;
+    border:none;
+    border-radius:5px;
+    font-size:.95rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .2s ease, box-shadow .2s ease, transform .1s ease;
+    box-shadow:0 4px 16px rgba(232,40,63,0.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+
+  button:hover:not(:disabled){
+    background:#ff3850;
+    box-shadow:0 6px 20px rgba(232,40,63,0.5);
+    transform:translateY(-1px);
+  }
+
+  button:active:not(:disabled){ transform:translateY(0); }
+
+  button:disabled{ opacity:.75; cursor:default; }
+
+  .spinner{
+    width:15px; height:15px;
+    border:2px solid rgba(255,255,255,0.35);
+    border-top-color:#fff;
+    border-radius:50%;
+    display:none;
+    animation:spin .7s linear infinite;
+  }
+
+  button.loading .spinner{ display:inline-block; }
+
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .banner{
+    display:none;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:5px;
+    font-size:.85rem;
+    line-height:1.4;
+  }
+
+  .banner.show{ display:flex; }
+
+  .banner.error{
+    background:rgba(232,40,63,0.1);
+    border:1px solid var(--red-dim);
+    color:#ffb3bb;
+  }
+
+  .banner svg{ flex-shrink:0; margin-top:1px; }
+
+  .success-panel{
+    display:none;
+    text-align:center;
+    padding:20px 6px 4px;
+  }
+
+  .success-panel.show{ display:block; }
+
+  .success-panel .icon-check{
+    width:56px; height:56px;
+    color:var(--success);
+    margin:0 auto 16px;
+    display:block;
+  }
+
+  .success-panel h2{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:1.3rem;
+    color:var(--success);
+    margin-bottom:10px;
+  }
+
+  .success-panel p{
+    color:var(--text-muted);
+    font-size:.9rem;
+    line-height:1.55;
+    max-width:34ch;
+    margin:0 auto;
+  }
+
+  form.hide{ display:none; }
+
+  @media (max-width:480px){
+    .form-row{ grid-template-columns:1fr; }
+    .content{ padding:28px 22px 26px; }
+    header h1{ font-size:1.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Camp do Flee the Facility</h1>
-            <p>Inscrições abertas para o campeonato oficial. Garanta sua vaga!</p>
-        </header>
-
-        <form action="#" method="POST">
-            
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nickname">Nickname (No Jogo)</label>
-                    <input type="text" id="nickname" name="nickname" placeholder="Ex: ProPlayer_99" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="jogo">Escolha o Jogo</label>
-                    <select id="jogo" name="jogo" required>
-                        <option value="" disabled selected>Selecione...</option>
-                        <option value="FTF">Flee the facility</option>
-                        <option value="Bf">Blox Fruits</option>
-                        <option value="Mine">Minecraft</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="email">E-mail de Contato</label>
-                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="discord">Discord (Tag/Usuário)</label>
-                <input type="text" id="discord" name="discord" placeholder="Ex: usuario#0000 ou apenas usuario" required>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="termos" name="termos" required>
-                <label for="termos">Li e aceito as regras oficiais do campeonato.</label>
-            </div>
-
-            <button type="submit">Concluir Inscrição</button>
-        </form>
+  <div class="container" id="card">
+    <div class="statusbar">
+      <span class="left"><span class="dot"></span>Inscrições abertas</span>
+      <span class="right">Flee the Facility</span>
     </div>
+
+    <div class="content">
+      <header>
+        <h1>Camp <span>Flee the Facility</span></h1>
+        <p>Preencha seus dados para garantir sua vaga na 1ª edição oficial. Vagas limitadas — quem fugir primeiro, joga primeiro.</p>
+        <div class="divider"></div>
+      </header>
+
+      <form id="inscricaoForm" novalidate>
+
+        <div class="form-group">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required minlength="3">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nickname">Nickname (no jogo)</label>
+            <input type="text" id="nickname" name="nickname" placeholder="Ex: ProPlayer_99" required minlength="3">
+          </div>
+
+          <div class="form-group">
+            <label for="turno">Turno disponível</label>
+            <select id="turno" name="turno" required>
+              <option value="" disabled selected>Selecione...</option>
+              <option value="Manhã">Manhã</option>
+              <option value="Tarde">Tarde</option>
+              <option value="Noite">Noite</option>
+              <option value="Qualquer horário">Qualquer horário</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail de contato</label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="discord">Discord (usuário)</label>
+          <input type="text" id="discord" name="discord" placeholder="Ex: usuario" required minlength="2">
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="termos" name="termos" required>
+          <label for="termos">Li e aceito as <a href="#" id="regrasLink">regras oficiais</a> do campeonato.</label>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span class="spinner"></span>
+          <span class="btnLabel">Transmitir inscrição</span>
+        </button>
+
+        <div class="banner error" id="errorBanner" role="alert">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 9v4M12 17h.01M10.29 3.86l-8.18 14.18A1 1 0 003 19.5h18a1 1 0 00.87-1.5L13.71 3.86a1 1 0 00-1.72 0z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="errorText">Falha ao transmitir a inscrição. Tente novamente ou avise um organizador no Discord.</span>
+        </div>
+      </form>
+
+      <div class="success-panel" id="successPanel" aria-live="polite">
+        <svg class="icon-check" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="24" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 27l7 7 16-16" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2>Acesso concedido</h2>
+        <p id="successText">Inscrição registrada. Fique de olho no Discord para os próximos passos — boa sorte na fuga!</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ──────────────────────────────────────────────────────────
+  // CONFIGURAÇÃO: cole aqui o link do seu Webhook do Discord.
+  // Como criar: no seu servidor → Configurações → Integrações
+  // → Webhooks → Novo Webhook → Copiar URL do Webhook.
+  // Enquanto este link não for trocado, o formulário funciona
+  // em modo de teste (mostra sucesso na tela, mas não envia nada).
+  // ──────────────────────────────────────────────────────────
+  const CONFIG = {
+    WEBHOOK_URL: "COLE_AQUI_O_LINK_DO_WEBHOOK_DO_DISCORD"
+  };
+
+  const form = document.getElementById('inscricaoForm');
+  const card = document.getElementById('card');
+  const submitBtn = document.getElementById('submitBtn');
+  const btnLabel = submitBtn.querySelector('.btnLabel');
+  const errorBanner = document.getElementById('errorBanner');
+  const successPanel = document.getElementById('successPanel');
+  const successText = document.getElementById('successText');
+
+  function webhookConfigured(){
+    return CONFIG.WEBHOOK_URL.startsWith('https://discord.com/api/webhooks/');
+  }
+
+  function setLoading(isLoading){
+    submitBtn.disabled = isLoading;
+    submitBtn.classList.toggle('loading', isLoading);
+    btnLabel.textContent = isLoading ? 'Transmitindo...' : 'Transmitir inscrição';
+  }
+
+  function showError(message){
+    if(message) document.getElementById('errorText').textContent = message;
+    errorBanner.classList.add('show');
+  }
+
+  function hideError(){
+    errorBanner.classList.remove('show');
+  }
+
+  function shakeCard(){
+    card.classList.add('shake');
+    setTimeout(()=>card.classList.remove('shake'), 400);
+  }
+
+  function buildPayload(data){
+    return {
+      embeds: [{
+        title: "📋 Nova inscrição — Camp Flee the Facility",
+        color: 0xe8283f,
+        fields: [
+          { name: "Nome completo", value: data.nome, inline: false },
+          { name: "Nickname", value: data.nickname, inline: true },
+          { name: "Turno", value: data.turno, inline: true },
+          { name: "E-mail", value: data.email, inline: false },
+          { name: "Discord", value: data.discord, inline: false }
+        ],
+        timestamp: new Date().toISOString()
+      }]
+    };
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    hideError();
+
+    if(!form.checkValidity()){
+      form.reportValidity();
+      shakeCard();
+      return;
+    }
+
+    const data = {
+      nome: document.getElementById('nome').value.trim(),
+      nickname: document.getElementById('nickname').value.trim(),
+      turno: document.getElementById('turno').value,
+      email: document.getElementById('email').value.trim(),
+      discord: document.getElementById('discord').value.trim()
+    };
+
+    setLoading(true);
+
+    try{
+      if(webhookConfigured()){
+        const res = await fetch(CONFIG.WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildPayload(data))
+        });
+        if(!res.ok) throw new Error('O Discord respondeu com status ' + res.status);
+      } else {
+        console.warn('[Camp Flee the Facility] Webhook do Discord não configurado — exibindo sucesso em modo de teste. Edite CONFIG.WEBHOOK_URL no código para receber as inscrições de verdade.');
+        await new Promise(r => setTimeout(r, 800));
+      }
+
+      successText.textContent = `Boa sorte na fuga, ${data.nickname}! Sua inscrição foi registrada — fique de olho no Discord para os próximos passos.`;
+      form.classList.add('hide');
+      successPanel.classList.add('show');
+
+    } catch(err){
+      console.error(err);
+      showError();
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>
 
 </body>
 </html>
