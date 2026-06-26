@@ -394,112 +394,88 @@
     </div>
   </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
-  // ──────────────────────────────────────────────────────────
-  // CONFIGURAÇÃO: cole aqui o link do seu Webhook do Discord.
-  // Como criar: no seu servidor → Configurações → Integrações
-  // → Webhooks → Novo Webhook → Copiar URL do Webhook.
-  // Enquanto este link não for trocado, o formulário funciona
-  // em modo de teste (mostra sucesso na tela, mas não envia nada).
-  // ──────────────────────────────────────────────────────────
-  const CONFIG = {
-    WEBHOOK_URL: "COLE_AQUI_O_LINK_DO_WEBHOOK_DO_DISCORD"
-  };
+emailjs.init({
+  publicKey: "p8ZV30MsU-guFMRJU"
+});
 
-  const form = document.getElementById('inscricaoForm');
-  const card = document.getElementById('card');
-  const submitBtn = document.getElementById('submitBtn');
-  const btnLabel = submitBtn.querySelector('.btnLabel');
-  const errorBanner = document.getElementById('errorBanner');
-  const successPanel = document.getElementById('successPanel');
-  const successText = document.getElementById('successText');
+const form = document.getElementById("inscricaoForm");
+const card = document.getElementById("card");
+const submitBtn = document.getElementById("submitBtn");
+const btnLabel = submitBtn.querySelector(".btnLabel");
+const errorBanner = document.getElementById("errorBanner");
+const successPanel = document.getElementById("successPanel");
+const successText = document.getElementById("successText");
 
-  function webhookConfigured(){
-    return CONFIG.WEBHOOK_URL.startsWith('https://discord.com/api/webhooks/');
-  }
-
-  function setLoading(isLoading){
+function setLoading(isLoading){
     submitBtn.disabled = isLoading;
-    submitBtn.classList.toggle('loading', isLoading);
-    btnLabel.textContent = isLoading ? 'Transmitindo...' : 'Transmitir inscrição';
-  }
+    submitBtn.classList.toggle("loading", isLoading);
+    btnLabel.textContent = isLoading ? "Transmitindo..." : "Transmitir inscrição";
+}
 
-  function showError(message){
-    if(message) document.getElementById('errorText').textContent = message;
-    errorBanner.classList.add('show');
-  }
+function showError(message){
+    document.getElementById("errorText").textContent =
+        message || "Erro ao enviar inscrição.";
+    errorBanner.classList.add("show");
+}
 
-  function hideError(){
-    errorBanner.classList.remove('show');
-  }
+function hideError(){
+    errorBanner.classList.remove("show");
+}
 
-  function shakeCard(){
-    card.classList.add('shake');
-    setTimeout(()=>card.classList.remove('shake'), 400);
-  }
+function shakeCard(){
+    card.classList.add("shake");
+    setTimeout(() => card.classList.remove("shake"), 400);
+}
 
-  function buildPayload(data){
-    return {
-      embeds: [{
-        title: "📋 Nova inscrição — Camp Flee the Facility",
-        color: 0xe8283f,
-        fields: [
-          { name: "Nome completo", value: data.nome, inline: false },
-          { name: "Nickname", value: data.nickname, inline: true },
-          { name: "Turno", value: data.turno, inline: true },
-          { name: "E-mail", value: data.email, inline: false },
-          { name: "Discord", value: data.discord, inline: false }
-        ],
-        timestamp: new Date().toISOString()
-      }]
-    };
-  }
+form.addEventListener("submit", async (e) => {
 
-  form.addEventListener('submit', async function(e){
     e.preventDefault();
+
     hideError();
 
     if(!form.checkValidity()){
-      form.reportValidity();
-      shakeCard();
-      return;
+        form.reportValidity();
+        shakeCard();
+        return;
     }
-
-    const data = {
-      nome: document.getElementById('nome').value.trim(),
-      nickname: document.getElementById('nickname').value.trim(),
-      turno: document.getElementById('turno').value,
-      email: document.getElementById('email').value.trim(),
-      discord: document.getElementById('discord').value.trim()
-    };
 
     setLoading(true);
 
     try{
-      if(webhookConfigured()){
-        const res = await fetch(CONFIG.WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildPayload(data))
-        });
-        if(!res.ok) throw new Error('O Discord respondeu com status ' + res.status);
-      } else {
-        console.warn('[Camp Flee the Facility] Webhook do Discord não configurado — exibindo sucesso em modo de teste. Edite CONFIG.WEBHOOK_URL no código para receber as inscrições de verdade.');
-        await new Promise(r => setTimeout(r, 800));
-      }
 
-      successText.textContent = `Boa sorte na fuga, ${data.nickname}! Sua inscrição foi registrada — fique de olho no Discord para os próximos passos.`;
-      form.classList.add('hide');
-      successPanel.classList.add('show');
+        await emailjs.send(
+            "service_my2liuh",
+            "template_fufb0aq",
+            {
+                nome: document.getElementById("nome").value,
+                nickname: document.getElementById("nickname").value,
+                turno: document.getElementById("turno").value,
+                email: document.getElementById("email").value,
+                discord: document.getElementById("discord").value
+            }
+        );
 
-    } catch(err){
-      console.error(err);
-      showError();
-    } finally {
-      setLoading(false);
+        form.classList.add("hide");
+        successPanel.classList.add("show");
+
+        successText.textContent =
+        "Sua inscrição foi enviada com sucesso! Verifique seu e-mail para futuras informações.";
+
+    }catch(err){
+
+        console.error(err);
+        showError("Não foi possível enviar a inscrição.");
+
+    }finally{
+
+        setLoading(false);
+
     }
-  });
-</script>
 
+});
+</script>
 </body>
 </html>
